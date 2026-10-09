@@ -1,0 +1,9 @@
+{
+  "appId": "com.certidevelopment.magnetmail",
+  "appName": "Magnet Mail",
+  "webDir": "dist",
+  "backgroundColor": "#d9ecff",
+  "android": {
+    "allowMixedContent": false
+  }
+}
