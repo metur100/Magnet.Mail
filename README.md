@@ -235,74 +235,31 @@ scripts/smoke.mjs             Playwright smoke test
 
 ## Android (Capacitor)
 
-The web build is ready to be wrapped with [Capacitor](https://capacitorjs.com/):
-
-- Asset paths are relative.
-- The game runs fully offline.
-- It is portrait only.
-- `capacitor.config.json` is included, with app ID `com.certidevelopment.magnetmail` and `webDir: dist`.
-
+The web build is wrapped with [Capacitor](https://capacitorjs.com/), app ID `com.certidevelopment.magnetmail`. The game runs fully offline and portrait only.
 Store listings, screenshots, graphics and step-by-step Play Console / App Store Connect guides are in [`store/`](store/README.md).
 
-Prerequisites: Android Studio (with an SDK and platform tools) and JDK 17+.
+Prerequisites: Android Studio (SDK and platform tools; its bundled JDK is enough).
 
-**1. Install dependencies and build the web version**
+`android/` is generated and not committed. Create it once per clone:
 
 ```bash
 npm install
 npm run build
-```
-
-**2. Add Capacitor**
-
-```bash
-npm install @capacitor/core @capacitor/android
-npm install -D @capacitor/cli
-```
-
-**3. Create the Android project**
-
-```bash
 npx cap add android
-npx cap sync android
+npm run android:setup     # portrait, vibration permission, splash, launcher icons, version, release signing
 ```
 
-Lock the activity to portrait in `android/app/src/main/AndroidManifest.xml` by adding `android:screenOrientation="portrait"` to the `<activity>`.
+`android:setup` derives the version code from `package.json` (1.0.0 → 10000). It also renders the launcher icons from `public/icon.svg`. Run it again after changing either.
 
-Optional, for native vibration: run `npm install @capacitor/haptics` and call `Haptics.setBackend(...)` at start-up.
+**Run on a device:** connect a phone with USB debugging enabled, then run `npx cap run android`. After code changes, run `npm run build && npx cap sync android`.
 
-**4. Run on an Android device**
-
-1. Enable *Developer options → USB debugging* on the phone and connect it.
-2. Run:
+**Release build for Google Play:**
 
 ```bash
-npx cap run android          # choose the device
-# or: npx cap open android   # then press Run in Android Studio
+npm run android:bundle    # → android/app/build/outputs/bundle/release/app-release.aab (signed)
 ```
 
-After code changes, run `npm run build && npx cap sync android`.
-
-**5. Create a release build**
-
-Create an upload keystore once and keep it and its passwords safe:
-
-```bash
-keytool -genkey -v -keystore magnet-mail-upload.jks -keyalg RSA -keysize 2048 -validity 10000 -alias magnetmail
-```
-
-Then build a signed Android App Bundle for Google Play:
-
-```bash
-npm run build && npx cap sync android
-npx cap build android --androidreleasetype AAB \
-  --keystorepath ../magnet-mail-upload.jks --keystorealias magnetmail \
-  --keystorepass <store-password> --keystorealiaspass <key-password>
-```
-
-Alternatively, use Android Studio → *Build → Generate Signed Bundle / APK*. The bundle ends up in `android/app/build/outputs/bundle/release/`.
-
-Before each upload, raise `versionCode` and `versionName` in `android/app/build.gradle`.
+Signing reads `MAGNET_MAIL_UPLOAD_STORE_FILE`, `…_STORE_PASSWORD`, `…_KEY_ALIAS` and `…_KEY_PASSWORD` from `~/.gradle/gradle.properties`, so passwords never go into the repository. `JAVA_HOME` must point to a JDK 21, for example Android Studio's `jbr` folder.
 
 ## Credits
 

@@ -51,9 +51,9 @@ Files referenced below are in this folder (\`store/play-store/\`).
 | | |
 | --- | --- |
 | Package name | \`${APP.androidPackage}\` |
-| Version | ${APP.version} (version code 1) |
-| Upload file | \`android/app/build/outputs/bundle/release/app-release-signed.aab\` (see *6. Build the release*) |
-| Upload key | \`${KEYSTORE}\`, alias \`${ALIAS}\` (create it in step 6) |
+| Version | ${APP.version} (version code 10000) |
+| Upload file | \`android/app/build/outputs/bundle/release/app-release.aab\` (see *6. Build the release*) |
+| Upload key | \`${KEYSTORE}\`, alias \`${ALIAS}\` |
 | Privacy policy | ${PRIVACY} |
 | Website | ${CONTACT.site} |
 | Contact email | ${CONTACT.email} |
@@ -160,47 +160,32 @@ No declarations are needed. The Capacitor template only requests \`INTERNET\` (n
 
 ## 6. Build the release (from this PC)
 
-Prerequisites: Android Studio (SDK + platform tools; its bundled JDK is enough), Node.js 20+.
-
-**Once – add Capacitor and create the Android project:**
-
-\`\`\`powershell
-cd ${REPO}
-npm install
-npm install @capacitor/core @capacitor/android
-npm install -D @capacitor/cli
-npm run build
-npx cap add android
-\`\`\`
-
-Then in \`android/app/src/main/AndroidManifest.xml\` add \`android:screenOrientation="portrait"\` to the \`<activity>\` element.
-App icons: in Android Studio right-click \`app/res\` → *New → Image Asset* and pick \`public/icon.svg\` (or \`store/play-store/graphics/icon-512.png\`).
-
-**Once – create the upload key** (choose a strong password and keep it in your password manager):
-
-\`\`\`powershell
-New-Item -ItemType Directory -Force C:\\Users\\TurkesMedin\\keystore | Out-Null
-& "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\keytool.exe" -genkeypair -v -storetype PKCS12 \`
-  -keystore ${KEYSTORE} -alias ${ALIAS} \`
-  -keyalg RSA -keysize 2048 -validity 18250 \`
-  -dname "CN=${CONTACT.name}, L=Düsseldorf, ST=NRW, C=DE"
-\`\`\`
+The upload key already exists: \`${KEYSTORE}\` (alias \`${ALIAS}\`). Its password is in
+\`C:\\Users\\TurkesMedin\\keystore\\magnetmail-password.txt\` and in \`C:\\Users\\TurkesMedin\\.gradle\\gradle.properties\`
+(\`MAGNET_MAIL_UPLOAD_*\`, read by the Gradle build). Neither file is in the repository.
 
 **Every release:**
 
 \`\`\`powershell
 cd ${REPO}
-npm run build
-npx cap sync android
 $env:JAVA_HOME = "C:\\Program Files\\Android\\Android Studio\\jbr"
-npx cap build android --androidreleasetype AAB \`
-  --keystorepath ${KEYSTORE} --keystorealias ${ALIAS} \`
-  --keystorepass "your-password" --keystorealiaspass "your-password"
-# -> android\\app\\build\\outputs\\bundle\\release\\app-release-signed.aab
+npm run android:bundle
+# -> android\\app\\build\\outputs\\bundle\\release\\app-release.aab
 \`\`\`
 
-(Alternatively: \`npx cap open android\` → *Build → Generate Signed App Bundle*.)
-Raise \`versionCode\` and \`versionName\` in \`android/app/build.gradle\` for every update.
+For an update raise \`version\` in \`package.json\` (the version code is derived from it: 1.0.1 → 10001), then run \`npm run android:setup\` before \`npm run android:bundle\`.
+
+**On a fresh clone or another PC** (\`android/\` is generated and not committed):
+
+\`\`\`powershell
+npm install
+npm run build
+npx cap add android
+npm run android:setup    # portrait, vibration, splash, launcher icons, version, signing
+\`\`\`
+
+and copy the keystore plus the four \`MAGNET_MAIL_UPLOAD_*\` lines of \`gradle.properties\` to that PC.
+
 **Back up the keystore file and its password** – with Play App Signing a lost upload key can be reset through Google support, but it takes time.
 `);
 
