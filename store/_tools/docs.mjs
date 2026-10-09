@@ -278,6 +278,18 @@ ${block('Subtitle', IOS.subtitle, 30)}
 
 Drag the files in name order (01 … 08). iPad screenshots are **not** needed when the build is iPhone-only (see step 1).
 
+### Header artwork (optional, "Kopfzeilen-Inhalt")
+
+Shown as the large banner at the top of the product page and in search results. Optional, but recommended.
+Rendered by \`node store/_tools/render.mjs --header\` (no alpha channel, content kept in the centre so every crop works):
+
+| Asset | File | Size |
+| --- | --- | --- |
+| Universal (header **and** search results) – use this one | \`header/header-16x9.png\` | 5244 × 2950 |
+| Product page header only | \`header/header-21x9.png\` | 3840 × 1646 |
+
+Upload \`header-16x9.png\`, check both crops in the preview (header 21:9, search 3:2) and enable it for search results too.
+
 ### Texts
 
 ${block('Promotional text', IOS.promo, 170)}

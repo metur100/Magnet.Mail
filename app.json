@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Magnet Mail",
+    "slug": "magnet-mail",
+    "version": "1.0.0",
+    "icon": "./store/app-store/icon-1024.png",
+    "ios": {
+      "bundleIdentifier": "com.certidevelopment.magnetmail"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a889feb6-b08a-4e92-a5a2-c75b01b44198"
+      }
+    }
+  }
+}

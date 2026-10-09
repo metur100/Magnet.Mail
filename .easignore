@@ -1,0 +1,14 @@
+# Upload to EAS Build: like .gitignore, but the generated ios/ project is included (it is built in the cloud).
+node_modules
+dist
+test-results
+*.log
+.DS_Store
+.vite
+android
+store/*
+!store/app-store
+store/app-store/*
+!store/app-store/icon-1024.png
+ios/App/build
+ios/DerivedData

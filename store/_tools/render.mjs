@@ -5,8 +5,11 @@
  *   play-store/graphics/feature-graphic.png       1024 × 500 (no alpha)
  *   app-store/screenshots/iphone-6.9/NN.png       1320 × 2868 (+ 6.5" 1284 × 2778, 6.3" 1206 × 2622)
  *   app-store/icon-1024.png                       1024 × 1024 (no alpha – App Store requirement)
+ *   app-store/header/header-21x9.png              3840 × 1646 (product page header, no alpha)
+ *   app-store/header/header-16x9.png              5244 × 2950 (header + search results, no alpha)
  * Uses headless Microsoft Edge for layout and ffmpeg for exact sizing.
- * Usage: node store/_tools/render.mjs
+ * Usage: node store/_tools/render.mjs            (everything)
+ *        node store/_tools/render.mjs --header   (only the App Store header artwork)
  */
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -40,7 +43,7 @@ h1 { line-height: 1.02; letter-spacing: -.01em; }
 .frame img { display: block; width: 100%; }
 `;
 
-function render(html, width, height, out) {
+function render(html, width, height, out, scale = 1) {
   const name = `${path.basename(path.dirname(out))}-${path.basename(out, '.png')}`;
   const file = path.join(TMP, `${name}.html`);
   const raw = path.join(TMP, `${name}.raw.png`);
@@ -49,7 +52,8 @@ function render(html, width, height, out) {
     try {
       execFileSync(EDGE, [
         '--headless=new', `--user-data-dir=${path.join(TMP, `profile-${name}-${attempt}`)}`, '--no-first-run', '--disable-gpu',
-        '--allow-file-access-from-files', '--hide-scrollbars', `--window-size=${width},${height}`, `--screenshot=${raw}`, pathToFileURL(file).href,
+        '--allow-file-access-from-files', '--hide-scrollbars', `--force-device-scale-factor=${scale}`,
+        `--window-size=${Math.ceil(width / scale)},${Math.ceil(height / scale)}`, `--screenshot=${raw}`, pathToFileURL(file).href,
       ], { stdio: 'ignore', timeout: 90000 });
       break;
     } catch (error) {
@@ -57,7 +61,7 @@ function render(html, width, height, out) {
     }
   }
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', raw, '-vf', `scale=${width}:${height}:flags=lanczos`, '-pix_fmt', 'rgb24', out]);
+  execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', raw, '-vf', `scale=${width}:${height}:force_original_aspect_ratio=increase:flags=lanczos,crop=${width}:${height}:0:0`, '-pix_fmt', 'rgb24', out]);
 }
 
 /** Caption on top, the game screen in a rounded phone frame below. Sizes are in output pixels. */
@@ -91,6 +95,35 @@ function featureGraphic(shot) {
   <div class="ph"><div class="frame"><img src="${shot}"></div></div></div></body></html>`;
 }
 
+/**
+ * App Store header artwork. All content sits in a centred 1500 × 760 box (CSS px) so the 16:9 version
+ * survives both crops App Store Connect applies to it (21:9 header, 3:2 search result).
+ */
+function headerArt([left, main, right], cssW, cssH) {
+  const phone = (shot, h) => `<div class="frame" style="width:${Math.round((h * 1320) / 2868)}px"><img src="${shot}"></div>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><style>${CSS}
+  body { width: ${cssW}px; height: ${cssH}px; }
+  .safe { position: absolute; left: 50%; top: 50%; width: 1500px; height: 760px; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 40px; }
+  .copy { flex: 0 0 640px; }
+  .icon { width: 150px; border-radius: 34px; box-shadow: 0 16px 36px rgba(36,50,74,.3); }
+  h1 { font-size: 124px; margin-top: 22px; } .sub { font-size: 40px; margin-top: 14px; color: #24324a; }
+  .phones { position: relative; flex: 1; height: 760px; filter: drop-shadow(0 34px 44px rgba(36,50,74,.3)); }
+  .phones .frame { position: relative; left: auto; top: auto; transform: none; padding: 10px; border-radius: 44px; box-shadow: none; }
+  .frame img { border-radius: 35px; }
+  .p { position: absolute; left: 50%; top: 50%; }
+  .p-main { z-index: 3; transform: translate(-50%, -50%); }
+  .p-left { z-index: 2; transform: translate(-108%, -46%) rotate(-9deg) scale(.86); }
+  .p-right { z-index: 1; transform: translate(8%, -46%) rotate(9deg) scale(.86); }
+  </style></head><body><div class="dots"></div><div class="safe">
+  <div class="copy"><img class="icon" src="${ICON_SVG}"><h1><span class="blue">Magnet</span><br><span style="color:#ec4b4b">Mail</span></h1>
+  <div class="sub">Pull. Push. Deliver.<br>30 levels in 6 worlds.</div></div>
+  <div class="phones">
+    <div class="p p-left">${phone(left, 620)}</div>
+    <div class="p p-right">${phone(right, 620)}</div>
+    <div class="p p-main">${phone(main, 700)}</div>
+  </div></div></body></html>`;
+}
+
 const iconPage = (size) =>
   `<!doctype html><html><head><style>*{margin:0}html,body{width:${size}px;height:${size}px;overflow:hidden;background:#d9ecff}img{width:${size}px;height:${size}px;display:block}</style></head><body><img src="${ICON_SVG}"></body></html>`;
 
@@ -98,6 +131,15 @@ const iconPage = (size) =>
 const rawDir = (set) => path.join(STORE, 'raw', set);
 const shots = fs.readdirSync(rawDir('phone')).filter((f) => /^\d\d-.*\.png$/.test(f)).sort();
 if (shots.length !== CAPTIONS.length) throw new Error(`expected ${CAPTIONS.length} raw shots, found ${shots.length}`);
+
+const headerShots = [2, 1, 3].map((i) => pathToFileURL(path.join(rawDir('tall'), shots[i])).href);
+render(headerArt(headerShots, 1920, 823), 3840, 1646, path.join(STORE, 'app-store', 'header', 'header-21x9.png'), 2);
+render(headerArt(headerShots, 1920, 1080), 5244, 2950, path.join(STORE, 'app-store', 'header', 'header-16x9.png'), 5244 / 1920);
+console.log('rendered App Store header artwork');
+if (process.argv.includes('--header')) {
+  fs.rmSync(TMP, { recursive: true, force: true });
+  process.exit(0);
+}
 
 shots.forEach((file, i) => {
   const name = `${String(i + 1).padStart(2, '0')}.png`;
