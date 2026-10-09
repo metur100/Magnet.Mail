@@ -1,18 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#d9ecff"/>
-      <stop offset="1" stop-color="#fff1e2"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#4c9bff"/>
+      <stop offset="1" stop-color="#1d5cb8"/>
     </linearGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <path d="M120 150 a110 110 0 0 0 0 220" fill="none" stroke="#ec4b4b" stroke-width="56"/>
-  <rect x="92" y="122" width="58" height="50" fill="#d7dde6"/>
-  <rect x="92" y="348" width="58" height="50" fill="#d7dde6"/>
-  <g fill="none" stroke="#2f7ff0" stroke-width="14" stroke-linecap="round">
-    <path d="M220 190 q40 70 0 140"/>
-    <path d="M250 170 q60 90 0 180"/>
+  <!-- Full-bleed square: the stores apply their own corner mask. -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <!-- Horseshoe magnet (opening to the right) with silver poles -->
+  <path d="M400 322 A190 190 0 0 0 400 702" fill="none" stroke="#ec4b4b" stroke-width="124"/>
+  <rect x="396" y="260" width="112" height="124" rx="10" fill="#e3e8ef"/>
+  <rect x="396" y="640" width="112" height="124" rx="10" fill="#e3e8ef"/>
+  <!-- Field lines -->
+  <g fill="none" stroke="#ffffff" stroke-width="30" stroke-linecap="round" opacity="0.9">
+    <path d="M560 400 Q600 512 560 624"/>
+    <path d="M614 352 Q672 512 614 672" opacity="0.7"/>
   </g>
-  <rect x="290" y="200" width="160" height="116" rx="14" fill="#fff4dc" stroke="#24324a" stroke-width="12"/>
-  <path d="M298 210 L370 266 L442 210" fill="none" stroke="#ec4b4b" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Envelope being pulled -->
+  <g transform="rotate(-8 770 512)">
+    <rect x="650" y="420" width="250" height="180" rx="22" fill="#fff4dc" stroke="#24324a" stroke-width="22"/>
+    <path d="M664 434 L775 520 L886 434" fill="none" stroke="#ec4b4b" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
 </svg>

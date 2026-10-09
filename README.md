@@ -242,7 +242,7 @@ The web build is ready to be wrapped with [Capacitor](https://capacitorjs.com/):
 - It is portrait only.
 - `capacitor.config.json` is included, with app ID `com.certidevelopment.magnetmail` and `webDir: dist`.
 
-This prepares the project for packaging; the game is **not** published on Google Play.
+Store listings, screenshots, graphics and step-by-step Play Console / App Store Connect guides are in [`store/`](store/README.md).
 
 Prerequisites: Android Studio (with an SDK and platform tools) and JDK 17+.
 
