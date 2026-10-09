@@ -11,8 +11,9 @@ Files referenced below are in this folder (`store/app-store/`).
 | Primary language | English (U.S.) |
 | Price | Free (all countries) |
 | Contact / support email | certidevelopment@gmail.com |
-| Privacy Policy URL | https://metur100.github.io/Magnet.Mail/privacy.html |
-| Support / Marketing URL | https://metur100.github.io/Magnet.Mail |
+| Privacy Policy URL | https://metur100.github.io/Magnet.Mail.Landing/privacy.html |
+| Support URL | https://metur100.github.io/Magnet.Mail.Landing/#support |
+| Marketing URL | https://metur100.github.io/Magnet.Mail.Landing/ |
 
 ## 1. Build and upload (needs a Mac)
 
@@ -70,7 +71,7 @@ Physics puzzle with magnets
 
 ## 4. App Privacy
 
-- **Privacy Policy URL:** https://metur100.github.io/Magnet.Mail/privacy.html
+- **Privacy Policy URL:** https://metur100.github.io/Magnet.Mail.Landing/privacy.html
 - **Data Collection → Get Started:** **“No, we do not collect data from this app.”** → Publish.
   The App Store then shows **“Data Not Collected”**.
 
@@ -137,7 +138,7 @@ FREE AND PRIVATE
 • Plays fully offline
 ```
 
-- **Support URL:** https://metur100.github.io/Magnet.Mail · **Marketing URL:** https://metur100.github.io/Magnet.Mail
+- **Support URL:** https://metur100.github.io/Magnet.Mail.Landing/#support · **Marketing URL:** https://metur100.github.io/Magnet.Mail.Landing/
 - **Version:** 1.0.0
 - **Copyright:** `2026 Medin Turkes`
 - **Build:** choose the build uploaded from Xcode (+ Add Build).

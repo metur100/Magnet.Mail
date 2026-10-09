@@ -4,8 +4,8 @@ export const CONTACT = {
   name: 'Medin Turkes',
   /** Support contact (shown publicly on Google Play). */
   email: 'certidevelopment@gmail.com',
-  /** Website = store/site, published with GitHub Pages. Privacy policy = `${site}/privacy.html`. */
-  site: 'https://metur100.github.io/Magnet.Mail',
+  /** Website = separate repo metur100/Magnet.Mail.Landing (GitHub Pages). Privacy policy = `${site}/privacy.html`. */
+  site: 'https://metur100.github.io/Magnet.Mail.Landing',
 };
 
 export const APP = {

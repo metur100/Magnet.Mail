@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://metur100.github.io/Magnet.Mail/sitemap.xml

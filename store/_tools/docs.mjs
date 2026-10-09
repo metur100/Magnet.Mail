@@ -211,7 +211,8 @@ Files referenced below are in this folder (\`store/app-store/\`).
 | Price | Free (all countries) |
 | Contact / support email | ${CONTACT.email} |
 | Privacy Policy URL | ${PRIVACY} |
-| Support / Marketing URL | ${CONTACT.site} |
+| Support URL | ${CONTACT.site}/#support |
+| Marketing URL | ${CONTACT.site}/ |
 
 ## 1. Build and upload (needs a Mac)
 
@@ -282,7 +283,7 @@ Drag the files in name order (01 … 08). iPad screenshots are **not** needed wh
 ${block('Promotional text', IOS.promo, 170)}
 ${block('Keywords (comma-separated, no spaces)', IOS.keywords, 100)}
 ${block('Description', IOS.description, 4000)}
-- **Support URL:** ${CONTACT.site} · **Marketing URL:** ${CONTACT.site}
+- **Support URL:** ${CONTACT.site}/#support · **Marketing URL:** ${CONTACT.site}/
 - **Version:** ${APP.version}
 - **Copyright:** \`${APP.copyright}\`
 - **Build:** choose the build uploaded from Xcode (+ Add Build).

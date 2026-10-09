@@ -9,8 +9,8 @@ Files referenced below are in this folder (`store/play-store/`).
 | Version | 1.0.0 (version code 10000) |
 | Upload file | `android/app/build/outputs/bundle/release/app-release.aab` (see *6. Build the release*) |
 | Upload key | `C:\Users\TurkesMedin\keystore\magnetmail`, alias `magnetmail.key` |
-| Privacy policy | https://metur100.github.io/Magnet.Mail/privacy.html |
-| Website | https://metur100.github.io/Magnet.Mail |
+| Privacy policy | https://metur100.github.io/Magnet.Mail.Landing/privacy.html |
+| Website | https://metur100.github.io/Magnet.Mail.Landing |
 | Contact email | certidevelopment@gmail.com |
 | Target audience | 13–15, 16–17, 18+ |
 
@@ -101,14 +101,14 @@ Upload the screenshots in file-name order (01 … 08). Tablet screenshots are op
 - **App category:** Game → **Puzzle**
 - **Tags** (up to 5): Puzzle, Physics, Casual, Offline, Single player
 - **Email address:** certidevelopment@gmail.com
-- **Website:** https://metur100.github.io/Magnet.Mail
+- **Website:** https://metur100.github.io/Magnet.Mail.Landing
 - **Phone number:** leave empty (optional)
 - **External marketing:** allowed (default)
 
 ## 4. App content (Policy → App content)
 
 ### Privacy policy
-https://metur100.github.io/Magnet.Mail/privacy.html
+https://metur100.github.io/Magnet.Mail.Landing/privacy.html
 
 ### App access
 **All functionality in my app is available without any access restrictions.** (No login, no account.)

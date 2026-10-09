@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | Google Play | [`play-store/PLAY-CONSOLE.md`](play-store/PLAY-CONSOLE.md) | every Console answer + Android build/signing steps · `listing/en-US/*.txt` · `graphics/` (icon 512, feature graphic) · `screenshots/phone/` (8 × 1080×1920) |
 | App Store | [`app-store/APP-STORE-CONNECT.md`](app-store/APP-STORE-CONNECT.md) | every App Store Connect answer + Xcode steps · `metadata/en-US/*.txt` · `icon-1024.png` · `screenshots/iphone-6.9 / 6.5 / 6.3/` (8 each) |
-| Website | [`site/`](site/) | landing + support page and privacy policy, deployed by `.github/workflows/pages.yml` to https://metur100.github.io/Magnet.Mail/ |
+| Website | [Magnet.Mail.Landing](https://github.com/metur100/Magnet.Mail.Landing) (separate repo) | landing page, support, privacy policy and terms – live at https://metur100.github.io/Magnet.Mail.Landing/ |
 
 All texts live in `_tools/content.mjs`. After editing, run `node store/_tools/docs.mjs`. It checks the store length limits and regenerates both guides and the listing text files.
 
